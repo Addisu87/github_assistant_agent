@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     # API Configuration
     OPEN_ROUTER_API_KEY: str | None = None
-    LLM_MODEL: str | None = None
+    LLM_MODEL: str = "gpt-4o"
 
     # Authentication
     GITHUB_TOKEN: str | None = None

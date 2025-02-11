@@ -12,9 +12,8 @@ from pydantic_ai.models.openai import OpenAIModel
 logfire.configure(send_to_logfire="if-token-present")
 
 # Configure the LLM model
-llm = (settings.LLM_MODEL, "deepseek/deepseek-chat")
 model = OpenAIModel(
-    llm,
+    settings.LLM_MODEL,
     base_url="https://openrouter.ai/api/v1",
     api_key=settings.OPEN_ROUTER_API_KEY,
 )
