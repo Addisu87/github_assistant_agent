@@ -1,5 +1,8 @@
+pydantic
 pydantic-ai-slim[openai]
 pydantic-settings
+fastapi
 supabase
 logfire
 uvicorn
+httpx
