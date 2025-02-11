@@ -1,4 +1,4 @@
-from __future__ import annotations as _annotations
+from __future__ import annotations
 
 import asyncio
 from typing import List
@@ -15,7 +15,7 @@ from pydantic_ai.messages import (
     UserPromptPart,
 )
 
-# configure logfire to suppress warnings
+# Configure logfire to suppress warnings
 logfire.configure(send_to_logfire="if-token-present")
 
 
@@ -28,8 +28,8 @@ class CLI:
         )
 
     async def chat(self):
-        print("GitHub Agent CLI (type 'quit' to exit')")
-        print("Enter your message.")
+        print("GitHub Agent CLI (type 'quit' to exit)")
+        print("Enter your message:")
 
         try:
             while True:
@@ -61,7 +61,6 @@ class CLI:
                         )
                     )
                 ]
-
                 self.messages.extend(filtered_messages)
 
                 # Optional if you want to print out tool calls and responses
