@@ -58,6 +58,7 @@ For a simpler interactive experience, you can use the command-line interface:
 
 ```bash
 python cli.py
+.venv/bin/python cli.py
 ```
 
 Example queries you can ask:
