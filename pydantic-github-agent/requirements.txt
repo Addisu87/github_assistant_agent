@@ -6,3 +6,5 @@ supabase
 logfire
 uvicorn
 httpx
+devtools
+gitpython
