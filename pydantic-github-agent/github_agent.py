@@ -11,9 +11,10 @@ from pydantic_ai.models.openai import OpenAIModel
 
 logfire.configure(send_to_logfire="if-token-present")
 
+# Configure the LLM model
 llm = (settings.LLM_MODEL, "deepseek/deepseek-chat")
 model = OpenAIModel(
-    llm,  # type: ignore
+    llm,
     base_url="https://openrouter.ai/api/v1",
     api_key=settings.OPEN_ROUTER_API_KEY,
 )
@@ -135,28 +136,29 @@ async def get_repo_structure(ctx: RunContext[GitHubDeps], github_url: str) -> st
     for item in tree:
         if not any(
             excluded in item["path"]
-            for excluded in [".git/", "node_modules", "__pycache__"]
+            for excluded in [".git/", "node_modules/", "__pycache__/"]
         ):
             structure.append(
-                f"{'📂 ' if item['type'] == 'tree' else '📄 '}{item['path']}"
+                f"{'📁 ' if item['type'] == 'tree' else '📄 '}{item['path']}"
             )
 
     return "\n".join(structure)
 
 
 @github_agent.tool
-async def get_file_content(ctx: RunContext[GitHubDeps], github_url: str) -> str:
+async def get_file_content(
+    ctx: RunContext[GitHubDeps], github_url: str, file_path: str
+) -> str:
     """Get the content of a specific file from the GitHub repository.
 
     Args:
         ctx: The context.
-        github_url: The GitHun repository URL.
+        github_url: The GitHub repository URL.
         file_path: Path to the file within the repository.
 
     Returns:
         str: File content as a string.
     """
-
     match = re.search(r"github\.com[:/]([^/]+)/([^/]+?)(?:\.git)?$", github_url)
     if not match:
         return "Invalid GitHub URL format"
