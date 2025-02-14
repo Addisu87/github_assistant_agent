@@ -19,12 +19,14 @@ model = OpenAIModel(
 )
 
 
+# Agent dependencies
 @dataclass
 class GitHubDeps:
     client: httpx.AsyncClient
     github_token: str | None = None
 
 
+# A set of instructions for the LLM
 system_prompt = """
 You are a coding expert with access to GitHub to help the user manage their repository and get information from it.
 
@@ -38,7 +40,7 @@ When answering a question about the repo, always start your answer with the full
 
 Your answer here...
 """
-
+# Define github agent
 github_agent = Agent(
     model,
     system_prompt=system_prompt,
@@ -47,6 +49,7 @@ github_agent = Agent(
 )
 
 
+# To get information while generating responses
 @github_agent.tool
 async def get_repo_info(ctx: RunContext[GitHubDeps], github_url: str) -> str:
     """Get repository information including size and description using GitHub API.
@@ -116,16 +119,8 @@ async def get_repo_structure(ctx: RunContext[GitHubDeps], github_url: str) -> st
         f"https://api.github.com/repos/{owner}/{repo}/git/trees/main?recursive=1",
         headers=headers,
     )
-
     if response.status_code != 200:
-        # Try with master branch if main fails
-        response = await ctx.deps.client.get(
-            f"https://api.github.com/repos/{owner}/{repo}/git/trees/master?recursive=1",
-            headers=headers,
-        )
-
-        if response.status_code != 200:
-            return f"Failed to get repository structure: {response.text}"
+        return f"Failed to get repository structure: {response.text}"
 
     data = response.json()
     tree = data["tree"]

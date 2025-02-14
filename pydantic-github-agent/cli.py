@@ -16,7 +16,7 @@ from pydantic_ai.messages import (
 )
 
 # Configure logfire to suppress warnings
-logfire.configure(send_to_logfire="if-token-present")
+logfire.configure(send_to_logfire="never")  # type: ignore
 
 
 class CLI:
@@ -39,9 +39,7 @@ class CLI:
 
                 # Run the agent with streaming
                 result = await github_agent.run(
-                    user_input,
-                    deps=self.deps,
-                    message_history=self.messages,
+                    user_input, deps=self.deps, message_history=self.messages
                 )
 
                 # Store the user message
