@@ -47,7 +47,8 @@ pip install -r requirements.txt
 To run the agent as an API endpoint (also compatible with the oTTomator Live Agent Studio), run:
 
 ```bash
-python github_agent_endpoint.py
+python agent_endpoint.py
+uvicorn main:app --reload
 ```
 
 The endpoint will be available at `http://localhost:8001`
