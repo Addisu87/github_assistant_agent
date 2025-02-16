@@ -5,7 +5,10 @@ from core.config import settings
 from fastapi import HTTPException, status
 from supabase import Client, create_client
 
-# Supabase setup
+if not settings.SUPABASE_URL or not settings.SUPABASE_SERVICE_KEY:
+    raise ValueError("Supabase URL and Service Key must be set in the .env file")
+
+# Initialize Supabase client using the environment variables
 supabase: Client = create_client(
     settings.SUPABASE_URL,
     settings.SUPABASE_SERVICE_KEY,

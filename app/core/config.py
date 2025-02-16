@@ -15,17 +15,18 @@ class Settings(BaseSettings):
     OPEN_ROUTER_API_KEY: str | None = None
     LLM_MODEL: str = "gpt-4o"
 
-    # Authentication
+    # Authentication Settings
     GITHUB_TOKEN: str | None = None
     SUPABASE_URL: str | None = None
     SUPABASE_SERVICE_KEY: str | None = None
     API_BEARER_TOKEN: str | None = None
 
 
-# lets to avoid reading the dotenv file again and again for each request
+# Cache the settings to avoid reloading the .env file repeatedly
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     return Settings()
 
 
+# Initialize settings
 settings = get_settings()
