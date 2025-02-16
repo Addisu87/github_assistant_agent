@@ -22,7 +22,7 @@ An intelligent GitHub repository analysis agent built using Pydantic AI, capable
 
 ```bash
 git clone https://github.com/Addisu87/github_assistant_agent
-cd pydantic-github-agent
+cd app
 ```
 
 2. Install dependencies (recommended to use a Python virtual environment):
@@ -76,7 +76,7 @@ If you prefer using Docker, you don't need to install Python or any dependencies
 
 ```bash
 git clone https://github.com/Addisu87/github_assistant_agent
-cd pydantic-github-agent
+cd app
 ```
 
 2. Set up environment variables:
