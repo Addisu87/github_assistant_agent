@@ -2,8 +2,7 @@ import httpx
 from core.config import settings
 from core.deps import fetch_conversation_history, store_message
 from core.github_agent import GitHubDeps, github_agent
-from core.security import verify_token
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 from schemas.assistant_agent import AgentRequest, AgentResponse
 
@@ -12,7 +11,8 @@ router = APIRouter()
 
 @router.post("/api/pydantic-github-agent", response_model=AgentResponse)
 async def github_agent_endpoint(
-    request: AgentRequest, authenticated: bool = Depends(verify_token)
+    request: AgentRequest,
+    # authenticated: bool = Depends(verify_token)
 ):
     try:
         # Fetch conversation history
@@ -34,16 +34,23 @@ async def github_agent_endpoint(
 
         # Store user's query
         await store_message(
-            session_id=request.session_id, message_type="human", content=request.query
+            session_id=request.session_id,
+            message_type="human",
+            content=request.query,
         )
 
         # Initialize agent dependencies
         async with httpx.AsyncClient() as client:
-            deps = GitHubDeps(client=client, github_token=settings.GITHUB_TOKEN)
+            deps = GitHubDeps(
+                client=client,
+                github_token=settings.GITHUB_TOKEN,
+            )
 
         # Run the agent with conversation history
         result = await github_agent.run(
-            request.query, message_history=messages, deps=deps
+            request.query,
+            message_history=messages,
+            deps=deps,
         )
 
         # Store agent's response
