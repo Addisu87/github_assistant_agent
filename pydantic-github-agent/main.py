@@ -1,9 +1,16 @@
+import sys
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.agent_endpoint import router as agent_router
 
 app = FastAPI()
 
+# Add parent directory to Python path
+sys.path.append(str(Path(__file__).parent.parent))
+
+# add router
 app.include_router(agent_router)
 
 
@@ -24,4 +31,5 @@ def read_root():
 if __name__ == "__main__":
     import uvicorn
 
+    uvicorn.run(app, host="0.0.0.0", port=8001)
     uvicorn.run(app, host="0.0.0.0", port=8001)

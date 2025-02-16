@@ -6,7 +6,7 @@ from typing import List
 import httpx
 import logfire
 from core.config import settings
-from github_agent import GitHubDeps, github_agent
+from core.github_agent import GitHubDeps, github_agent
 from pydantic_ai.messages import (
     ModelMessage,
     ModelRequest,
