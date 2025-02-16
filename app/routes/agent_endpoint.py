@@ -20,7 +20,6 @@ async def github_agent_endpoint(
 
         # Convert conversation history to format expected by agent
         messages = []
-
         for msg in conversation_history:
             msg_data = msg["message"]
             msg_type = msg_data["type"]
@@ -46,12 +45,12 @@ async def github_agent_endpoint(
                 github_token=settings.GITHUB_TOKEN,
             )
 
-        # Run the agent with conversation history
-        result = await github_agent.run(
-            request.query,
-            message_history=messages,
-            deps=deps,
-        )
+            # Run the agent with conversation history
+            result = await github_agent.run(
+                request.query,
+                message_history=messages,
+                deps=deps,
+            )
 
         # Store agent's response
         await store_message(
