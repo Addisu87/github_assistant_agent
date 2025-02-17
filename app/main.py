@@ -3,7 +3,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.agent_endpoint import router as agent_router
+from routers.agent_endpoint import router as agent_router
 
 app = FastAPI()
 
