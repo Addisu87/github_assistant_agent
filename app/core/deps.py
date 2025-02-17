@@ -1,4 +1,3 @@
-import json
 from typing import Any, Dict, List, Optional
 
 from core.config import settings
@@ -31,10 +30,9 @@ async def fetch_conversation_history(
             .execute()
         )
 
-        # Convert the response data into chronological order
-        messages = response.data[::-1]  # Reversing the list to get the correct order
+        # Convert to list and reverse to get chronological order
+        messages = response.data[::-1]
         return messages
-
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -51,14 +49,12 @@ async def store_message(
     """Store a message in the Supabase messages table."""
     message_obj = {"type": message_type, "content": content}
     if data:
-        message_obj["data"] = json.dumps(data)  # Convert dict to JSON string
+        message_obj["data"] = data  # type: ignore
 
     try:
-        # Insert the message into the 'messages' table
         supabase.table("messages").insert(
             {"session_id": session_id, "message": message_obj}
         ).execute()
-
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

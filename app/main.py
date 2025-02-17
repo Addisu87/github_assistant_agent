@@ -8,7 +8,8 @@ from routes.agent_endpoint import router as agent_router
 app = FastAPI()
 
 # Add parent directory to Python path
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.append(str(Path(__file__).parent.parent))
+
 
 # add router
 app.include_router(agent_router)

@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.post("/api/pydantic-github-agent", response_model=AgentResponse)
 async def github_agent_endpoint(
-    request: AgentRequest,  # ,
+    request: AgentRequest,
     authenticated: bool = Depends(verify_token),
 ):
     try:
