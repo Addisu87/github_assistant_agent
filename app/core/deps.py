@@ -1,8 +1,9 @@
 from typing import Any, Dict, List, Optional
 
-from core.config import settings
 from fastapi import HTTPException, status
 from supabase import Client, create_client
+
+from core.config import settings
 
 if not settings.SUPABASE_URL or not settings.SUPABASE_SERVICE_KEY:
     raise ValueError("Supabase URL and Service Key must be set in the .env file")

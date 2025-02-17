@@ -1,11 +1,13 @@
 import httpx
 import logfire
+
+from fastapi import APIRouter, Depends
+from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
+
 from core.config import settings
 from core.deps import fetch_conversation_history, store_message
 from core.github_agent import GitHubDeps, github_agent
 from core.security import verify_token
-from fastapi import APIRouter, Depends
-from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 from schemas.assistant_agent import AgentRequest, AgentResponse
 
 router = APIRouter()

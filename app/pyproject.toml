@@ -1,0 +1,9 @@
+[tool.ruff]
+line-length = 88  # Adjust to your preference
+
+[tool.ruff.isort]
+known-first-party = ["core", "schemas", "routes"]  # List your project modules
+# Ensures a blank line between standard, third-party, and first-party imports
+lines-between-types = 1  
+# Prevents alphabetizing within sections
+force-sort-within-sections = false 

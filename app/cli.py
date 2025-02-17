@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import asyncio
+
 from typing import List
 
 import httpx
 import logfire
-from core.config import settings
-from core.github_agent import GitHubDeps, github_agent
+
 from pydantic_ai.messages import (
     ModelMessage,
     ModelRequest,
@@ -14,6 +14,9 @@ from pydantic_ai.messages import (
     TextPart,
     UserPromptPart,
 )
+
+from core.config import settings
+from core.github_agent import GitHubDeps, github_agent
 
 # Configure logfire to suppress warnings
 logfire.configure(send_to_logfire="never")  # type: ignore

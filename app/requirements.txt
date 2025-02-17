@@ -1,9 +1,8 @@
 pydantic
-pydantic-ai-slim[openai]
+pydantic-ai-slim[openai,logfire]
 pydantic-settings
 fastapi
 supabase
-logfire
 uvicorn
 httpx
 devtools

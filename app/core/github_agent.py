@@ -1,13 +1,16 @@
 from __future__ import annotations as _annotations
 
 import re
+
 from dataclasses import dataclass
 
 import httpx
 import logfire
-from core.config import settings
+
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIModel
+
+from core.config import settings
 
 logfire.configure(send_to_logfire="if-token-present")
 

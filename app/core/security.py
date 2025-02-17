@@ -1,6 +1,7 @@
-from core.config import settings
 from fastapi import HTTPException, Security, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+from core.config import settings
 
 # Initialize the HTTPBearer security scheme
 security = HTTPBearer()
