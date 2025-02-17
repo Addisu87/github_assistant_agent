@@ -1,4 +1,5 @@
 import httpx
+import logfire
 from core.config import settings
 from core.deps import fetch_conversation_history, store_message
 from core.github_agent import GitHubDeps, github_agent
@@ -16,7 +17,8 @@ async def github_agent_endpoint(
     authenticated: bool = Depends(verify_token),
 ):
     try:
-        # Fetch conversation history
+        logfire.info(f"Processing agent request: {request}")
+        # Fetch conversation history for the session
         conversation_history = await fetch_conversation_history(request.session_id)
 
         # Convert conversation history to format expected by agent
@@ -33,6 +35,7 @@ async def github_agent_endpoint(
             messages.append(msg)
 
         # Store user's query
+        logfire.info(f"Storing user's query: {request.query}")
         await store_message(
             session_id=request.session_id,
             message_type="human",
@@ -41,14 +44,20 @@ async def github_agent_endpoint(
 
         # Initialize agent dependencies
         async with httpx.AsyncClient() as client:
+            logfire.info("Initializing agent dependencies")
             deps = GitHubDeps(client=client, github_token=settings.GITHUB_TOKEN)
 
             # Run the agent with conversation history
+            logfire.info(
+                f"Running the agent with query: {request.query} and msg: {messages}"
+            )
             result = await github_agent.run(
                 request.query, message_history=messages, deps=deps
             )
+            logfire.info(f"Agent response: {result.data}")
 
         # Store agent's response
+        logfire.info("Storing agent response")
         await store_message(
             session_id=request.session_id,
             message_type="ai",
@@ -59,7 +68,7 @@ async def github_agent_endpoint(
         return AgentResponse(success=True)
 
     except Exception as e:
-        print(f"Error processing agent request: {str(e)}")
+        logfire.error(f"Error processing agent request: {str(e)}")
         # Store error message in conversation
         await store_message(
             session_id=request.session_id,
