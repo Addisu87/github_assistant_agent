@@ -34,7 +34,9 @@ async def github_agent_endpoint(
 
         # Store user's query
         await store_message(
-            session_id=request.session_id, message_type="human", content=request.query
+            session_id=request.session_id,
+            message_type="human",
+            content=request.query,
         )
 
         # Initialize agent dependencies
