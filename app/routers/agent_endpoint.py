@@ -1,13 +1,14 @@
 import httpx
 import logfire
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 
 from core.config import settings
 from core.deps import fetch_conversation_history, store_message
 from core.github_agent import GitHubDeps, github_agent
-from core.security import verify_token
+
+# from core.security import verify_token
 from schemas.assistant_agent import AgentRequest, AgentResponse
 
 router = APIRouter()
@@ -16,7 +17,7 @@ router = APIRouter()
 @router.post("/api/pydantic-github-agent", response_model=AgentResponse)
 async def github_agent_endpoint(
     request: AgentRequest,
-    authenticated: bool = Depends(verify_token),
+    # authenticated: bool = Depends(verify_token),
 ):
     try:
         logfire.info(f"Processing agent request: {request}")
